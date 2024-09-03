@@ -17,5 +17,9 @@ def test_default():
 @app.route("/test/<type>")
 def test(type):
     return f'<p>Test for type: {type}'
+
+@app.route("/homepage")
+def homepage():
+    return render_template("homepage.html")
    
         
