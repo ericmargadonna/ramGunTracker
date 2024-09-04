@@ -1,2 +1,2 @@
 source .venv/bin/activate
-flask --app ramApp run --debug
+gunicorn -w 4 'ramApp:create_app()'
