@@ -1,5 +1,5 @@
 import functools
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 from werkzeug.security import check_password_hash, generate_password_hash
 from ramApp.db import get_db
 
@@ -10,6 +10,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        key = request.form['key']
         db = get_db()
         error = None
 
@@ -17,6 +18,10 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
+        elif not key:
+            error = 'Registration key required'
+        elif key != current_app.config['REGISTRATION_KEY']:
+            error = 'Incorrect registration key provided'
 
         if error is None:
             try:
