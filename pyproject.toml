@@ -1,0 +1,11 @@
+[project]
+name = "ramApp"
+version = "0.1.0"
+description = "RAM Computer Incident Management Software"
+dependencies = [
+    "flask",
+]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
