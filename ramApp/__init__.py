@@ -7,6 +7,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
+        REGISTRATION_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'ramapp.sqlite')
     )
 
@@ -20,13 +21,9 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    from . import db
+    from . import db, auth, tracker
     db.init_app(app)
-
-    from . import auth
     app.register_blueprint(auth.bp)
-
-    from . import tracker
     app.register_blueprint(tracker.bp)
     
     return app
