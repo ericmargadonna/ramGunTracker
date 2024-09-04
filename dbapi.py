@@ -1,6 +1,6 @@
 import sqlite3 as sql
 
-import config
+import ramApp.config as config
 
 class Shipment:
     def __init__(self, date, tracking, gun, base, cable=0):
@@ -28,20 +28,19 @@ class InventoryDatabaseConnection:
         self.cur = cur
 
     def get_incident_by_incidentnum(self, incidentnumber):
-        for row in self.cur.execute("SELECT * FROM INCIDENT WHERE INCIDENTNUM = ?", (incidentnumber,)):
-            print(row)
+        return self.cur.execute("SELECT * FROM INCIDENT WHERE INCIDENTNUM = ?", (incidentnumber,)).fetchall()
 
     def get_shipment_by_tracking(self, tracking):
-        for row in self.cur.execute("SELECT * FROM SHIPMENT WHERE TRACKING = ?", (tracking,)):
-            print(row)
+        return self.cur.execute("SELECT * FROM SHIPMENT WHERE TRACKING = ?", (tracking,)).fetchall()
+            
 
     def get_gun_by_ser(self, ser):
-        for row in self.cur.execute("SELECT * FROM GUN WHERE SER = ?", (ser,)):
-            print(row)
+        return self.cur.execute("SELECT * FROM GUN WHERE SER = ?", (ser,)).fetchall()
+            
 
     def get_base_by_ser(self, ser):
-        for row in self.cur.execute("SELECT * FROM BASE WHERE SER = ?", (ser,)):
-            print(row)
+        return self.cur.execute("SELECT * FROM BASE WHERE SER = ?", (ser,)).fetchall()
+            
 
     def insert_incident(self, _incident: Incident):
         data = (
@@ -52,7 +51,7 @@ class InventoryDatabaseConnection:
         )
         self.cur.execute("INSERT INTO INCIDENT VALUES(?, ?, ?, ?, NULL, NULL)",data)
 
-    def insert_shipment(self, _shipment: Incident):
+    def insert_shipment(self, _shipment: Shipment):
         data = (
             _shipment.gun     , 
             _shipment.base    , 
@@ -75,13 +74,9 @@ class InventoryDatabaseConnection:
             case _:
                 raise ValueError("Itemflag MUST be a one or zero!")
 
-
-
-
-
- ##                                     ##
-## This section is for testing purposes  ##
- ##                                     ##
+ ##                                      ##
+##  This section is for testing purposes  ##
+ ##                                      ##
 
 if __name__ == '__main__':
     dbcon = InventoryDatabaseConnection()
@@ -92,6 +87,7 @@ if __name__ == '__main__':
 
             case "insert":
                 i2 = input("Incident or Shipment? ")
+
                 if i2[0].lower() == 'i':
                     newinc = Incident(
                         input("Enter incident number: "),
@@ -99,7 +95,9 @@ if __name__ == '__main__':
                         input("Enter Store Number: "),
                         input("Enter Name of Store Contact: ")
                     )
+
                     dbcon.insert_incident(newinc)
+
                 elif i2[0].lower() == 's':
                     newship = Shipment(
                         input("Enter S/N of Gun: "),
@@ -109,6 +107,7 @@ if __name__ == '__main__':
                         input("Enter tracking number: "),
                     )
                     dbcon.insert_shipment(newship)
+
                 else:
                     print("Unknown insert type provided")
 
