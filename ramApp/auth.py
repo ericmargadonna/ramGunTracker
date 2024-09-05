@@ -19,9 +19,9 @@ def register():
         elif not password:
             error = 'Password is required.'
         elif not key:
-            error = 'Registration key required'
+            error = 'Registration key required.'
         elif key != current_app.config['REGISTRATION_KEY']:
-            error = 'Incorrect registration key provided'
+            error = 'Incorrect registration key provided.'
 
         if error is None:
             try:
