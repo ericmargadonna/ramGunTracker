@@ -1,0 +1,1 @@
+npx tailwindcss -i ./ramApp/static/css/input.css ./ramApp/static/css/output.css --watch
