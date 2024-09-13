@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+#logo {
+  font-family: watch-mn, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+table, td {
+  border: 2px solid
+}
+
+/* html {
     font-family: sans-serif;
     background: #eee;
     padding: 1rem;
@@ -135,4 +145,4 @@ html {
   input[type=submit] {
     align-self: start;
     min-width: 10em;
-  }
+  } */
