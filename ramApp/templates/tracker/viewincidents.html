@@ -1,0 +1,20 @@
+{% extends 'tracker/trackerbase.html' %}
+{% block content %}
+<table>
+{% for inc in incidents %}
+    <tr>
+        <td>{{ inc["INCIDENTNUM"] }}</td>
+        <td>{{ inc["CALLDATE"] }}</td>
+        <td>{{ inc["STORE_NUM"] }}</td>
+        <td>{{ inc["STORE_CONTACT"] }}</td>
+        <td>{{ inc["NOTES"] }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
+
+{% macro incidentcard(incnum,date,storenum,storecontact,notes) %}
+    <div>
+
+    </div>
+{% endmacro %}
