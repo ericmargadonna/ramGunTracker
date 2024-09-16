@@ -5,3 +5,5 @@ node_modules/
 
 instance/
 dev/
+
+ramApp/static/css/output.css
