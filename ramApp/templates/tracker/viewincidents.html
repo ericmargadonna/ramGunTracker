@@ -1,20 +1,30 @@
 {% extends 'tracker/trackerbase.html' %}
 {% block content %}
-<table>
-{% for inc in incidents %}
-    <tr>
-        <td>{{ inc["INCIDENTNUM"] }}</td>
-        <td>{{ inc["CALLDATE"] }}</td>
-        <td>{{ inc["STORE_NUM"] }}</td>
-        <td>{{ inc["STORE_CONTACT"] }}</td>
-        <td>{{ inc["NOTES"] }}</td>
-    </tr>
-{% endfor %}
-</table>
+<section class="flex flex-col justify-center">
+    <div class="self-center">
+        <input class="border-2 border-slate-300 h-10 px-5 mt-2 rounded-lg text-sm focus:outline-none"
+          type="search" placeholder="Search" name="searchinput"
+          hx-post="/search"
+          hx-trigger="input changed delay:500ms, search"
+          hx-target="#searchtarget"
+          hx-indicator=".htmx-indicator">
+    </div>
+    <div class="flex flex-col max-w-[50%] min-w-min self-center">
+    {% for inc in incidents %}
+        {{ incidentcard(inc["INCIDENTNUM"],inc["CALLDATE"],inc["STORENUM"],inc["STORECONTACT"],inc["NOTES"]) }}
+    {% endfor %}
+    </div>
+    <div id="searchtarget">
+    </div>
+</section>
 {% endblock %}
 
 {% macro incidentcard(incnum,date,storenum,storecontact,notes) %}
-    <div>
-
+    <div name='card-{{ incnum  }}' class='w-full flex p-2 self-center border-2 m-2 rounded-md'>
+        <p class="px-2 border-r-2">{{ incnum }}</p>
+        <p class="px-2 border-r-2 min-w-[8rem]">{{ date }}</p>
+        <p class="px-2 border-r-2">{{ storenum }}</p>
+        <p class="px-2 border-r-2">{{ storecontact }}</p>
+        <p class="px-2 max-w-[30rem]">{{ notes }}</p>
     </div>
 {% endmacro %}
