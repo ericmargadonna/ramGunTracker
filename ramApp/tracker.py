@@ -37,7 +37,7 @@ def createincident():
         error = None
 
         try:
-            db.execute("INSERT INTO INCIDENT (INCIDENTNUM, CALLDATE, STORE_NUM, STORE_CONTACT, NOTES) VALUES (?,?,?,?,?)", 
+            db.execute("INSERT INTO INCIDENT (INCIDENTNUM, CALLDATE, STORENUM, STORECONTACT, NOTES) VALUES (?,?,?,?,?)", 
                     (incidentnum, calldate, storenum, storecontact, notes))
             db.commit()
         except db.IntegrityError:
@@ -58,6 +58,20 @@ def createincident():
 def viewincidents():
     incidents=get_incidents()
     return render_template('tracker/viewincidents.html', incidents=incidents)
+
+@bp.route('/search', methods=('POST',))
+@login_required
+def search():
+    db=get_db()
+    search = request.form["searchinput"]
+    res = db.execute('''SELECT *, 
+                     instr(INCIDENTNUM, ?) AS A, 
+                     instr(CALLDATE, ?),
+                     instr(STORENUM, ?),
+                     instr(STORECONTACT, ?)
+                     FROM INCIDENT WHERE A>0
+                     ''', (search, search, search, search)).fetchall()
+    return res[0]["NOTES"]
 
 def get_incidents(open=None,limit=None):
     db=get_db()
