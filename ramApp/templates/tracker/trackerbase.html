@@ -1,22 +1,28 @@
 <!doctype html>
-<title>RGT - {% block title %}{% endblock %}</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-<link rel="stylesheet" href="https://use.typekit.net/ydy5ttm.css">
-<!-- <img src="{{url_for('static', filename='images/ramlogo.jpg')}}"> -->
-<nav class="bg-blue-200 w-full h-min">
-    <div class="p-4 flex flex-row items-center">
-        <h1 class='text-[3vw]' id="logo"><a class='' href=" {{ url_for('tracker.index')}}">RamGunTracker</a></h1>
-        <div class="flex grow items-center">
-            <a class='grow text-center px-3 text-[1.5vw]' href="{{ url_for('tracker.createincident') }}">Create Incident</a>
-            <a class='grow text-center px-3 text-[1.5vw]' href="{{ url_for('tracker.createshipment') }}">Create Shipment</a>
-            <a class='grow text-center px-3 text-[1.5vw]' href="{{ url_for('tracker.viewincidents') }}">View Incidents</a>
+<html>
+    <head>
+        <title>RGT - {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+        <link rel="stylesheet" href="https://use.typekit.net/ydy5ttm.css">
+        <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+    </head>
+    <!-- <img src="{{url_for('static', filename='images/ramlogo.jpg')}}"> -->
+    <nav class="bg-blue-200 w-full h-min">
+        <div class="px-4 flex flex-row items-center">
+            <h1 class='text-[3vw]' id="logo"><a class='' href=" {{ url_for('tracker.index')}}">RamGunTracker</a></h1>
+            <div class="flex grow items-center h-max">
+                <a class='grow text-center p-3 text-base border-r-2' href="{{ url_for('tracker.createincident') }}">Create Incident</a>
+                <a class='grow text-center p-3 text-base border-r-2' href="{{ url_for('tracker.createshipment') }}">Create Shipment</a>
+                <a class='grow text-center p-3 text-base' href="{{ url_for('tracker.viewincidents') }}">View Incidents</a>
+            </div>
+            <a class='text-sm border-2 border-slate-500 border-opacity-65 rounded-sm p-[.25rem] bg-slate-400 text-slate-100 text-center' href="{{ url_for('auth.logout')}}">Sign Out</a>
         </div>
-        <a class='text-[1vw]' href="{{ url_for('auth.logout')}}">Sign Out</a>
-    </div>
-</nav>
-<section>
-    {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block content %}{% endblock %}
-</section>
+    </nav>
+
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+{% endfor %}
+
+{% block content %}{% endblock %}
+
+</html>
