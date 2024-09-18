@@ -1,22 +1,14 @@
 {% extends 'tracker/trackerbase.html' %}
-{% import 'tracker/components.html' as components%}
 {% block content %}
 <section class="flex flex-col justify-center">
     <div class="self-center">
         <input class="border-2 border-slate-300 h-10 px-5 mt-2 rounded-lg text-sm focus:outline-none"
           type="search" placeholder="Search" name="searchinput"
           hx-post="/search"
-          hx-trigger="load input changed delay:500ms, search"
+          hx-trigger="load input keyup delay:500ms, search"
           hx-target="#searchtarget"
           hx-indicator=".htmx-indicator">
     </div>
-    <div class="flex flex-col max-w-[50%] min-w-min self-center">
-    {% for inc in incidents %}
-        {{ components.incidentcard(inc["INCIDENTNUM"],inc["CALLDATE"],inc["STORENUM"],inc["STORECONTACT"],inc["NOTES"]) }}
-    {% endfor %}
-    </div>
-    <div id="searchtarget"></div>
-    </div>
+    <div class="flex flex-col max-w-[50%] min-w-min self-center" id="searchtarget"></div>
 </section>
 {% endblock %}
-

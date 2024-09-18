@@ -66,12 +66,13 @@ def search():
     search = request.form["searchinput"]
     res = db.execute('''SELECT *, 
                      instr(INCIDENTNUM, ?) AS A, 
-                     instr(CALLDATE, ?),
-                     instr(STORENUM, ?),
-                     instr(STORECONTACT, ?)
-                     FROM INCIDENT WHERE A>0
+                     instr(CALLDATE, ?) AS B,
+                     instr(STORENUM, ?) AS C,
+                     instr(STORECONTACT, ?) AS D
+                     FROM INCIDENT
+                     WHERE A>0 OR B>0 OR C>0 OR D>0
                      ''', (search, search, search, search)).fetchall()
-    return res[0]["NOTES"]
+    return render_template("tracker/searchitems.html", incidents=res)
 
 def get_incidents(open=None,limit=None):
     db=get_db()
