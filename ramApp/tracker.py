@@ -63,12 +63,12 @@ def viewincidents():
 @login_required
 def search():
     db=get_db()
-    search = request.form["searchinput"]
+    search = request.form["searchinput"].lower()
     res = db.execute('''SELECT *, 
-                     instr(INCIDENTNUM, ?) AS A, 
-                     instr(CALLDATE, ?) AS B,
-                     instr(STORENUM, ?) AS C,
-                     instr(STORECONTACT, ?) AS D
+                     instr(lower(INCIDENTNUM), ?) AS A, 
+                     instr(lower(CALLDATE), ?) AS B,
+                     instr(lower(STORENUM), ?) AS C,
+                     instr(lower(STORECONTACT), ?) AS D
                      FROM INCIDENT
                      WHERE A>0 OR B>0 OR C>0 OR D>0
                      ''', (search, search, search, search)).fetchall()
