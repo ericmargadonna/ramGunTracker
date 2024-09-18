@@ -1,0 +1,9 @@
+{% macro incidentcard(incnum,date,storenum,storecontact,notes) %}
+    <div name='card-{{ incnum  }}' class='w-full flex p-2 self-center border-2 m-2 rounded-md'>
+        <p class="px-2 border-r-2">{{ incnum }}</p>
+        <p class="px-2 border-r-2 min-w-[8rem]">{{ date }}</p>
+        <p class="px-2 border-r-2">{{ storenum }}</p>
+        <p class="px-2 border-r-2">{{ storecontact }}</p>
+        <p class="px-2 max-w-[30rem]">{{ notes }}</p>
+    </div>
+{% endmacro %}
