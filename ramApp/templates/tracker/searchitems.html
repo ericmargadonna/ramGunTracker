@@ -7,3 +7,7 @@
         <p class="px-2 max-w-[30rem]">{{ notes }}</p>
     </div>
 {% endmacro %}
+
+{% for inc in incidents %}
+    {{ incidentcard(inc["INCIDENTNUM"],inc["CALLDATE"],inc["STORENUM"],inc["STORECONTACT"],inc["NOTES"]) }}
+{% endfor %}
