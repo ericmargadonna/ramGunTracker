@@ -1,11 +1,12 @@
 {% extends 'tracker/trackerbase.html' %}
+{% block title %}View Incidents{% endblock %}
 {% block content %}
 <section class="flex flex-col justify-center">
     <div class="self-center">
         <input class="border-2 border-slate-300 h-10 px-5 mt-2 rounded-lg text-sm focus:outline-none"
           type="search" placeholder="Search" name="searchinput"
           hx-post="/search"
-          hx-trigger="load input keyup delay:500ms, search"
+          hx-trigger="load, input delay:500ms, search"
           hx-target="#searchtarget"
           hx-indicator=".htmx-indicator">
     </div>
