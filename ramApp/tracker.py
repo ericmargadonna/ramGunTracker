@@ -72,7 +72,15 @@ def search():
                      FROM INCIDENT
                      WHERE A>0 OR B>0 OR C>0 OR D>0
                      ''', (search, search, search, search)).fetchall()
-    return render_template("tracker/searchitems.html", incidents=res)
+    return render_template("tracker/components/incidentcards.html", incidents=res)
+
+@bp.route('/edit', methods=('GET', 'POST'))
+@login_required
+def edit():
+    _incnum = request.args.get("_incnum")
+
+    return render_template("tracker/editincident.html", incnum=_incnum)
+
 
 def get_incidents(open=None,limit=None):
     db=get_db()
