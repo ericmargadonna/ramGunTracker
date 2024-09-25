@@ -56,7 +56,7 @@ def createincident():
 @bp.route('/viewincidents')
 @login_required
 def viewincidents():
-    incidents=get_incidents()
+    incidents=get_all_incidents()
     return render_template('tracker/viewincidents.html', incidents=incidents)
 
 @bp.route('/search', methods=('POST',))
@@ -78,10 +78,33 @@ def search():
 @login_required
 def edit():
     _incnum = request.args.get("_incnum")
+    if _incnum == None:
+        return redirect(url_for('tracker.viewincidents'))
+    
+    db=get_db()
+
+    #We start with just the incident number
+
+    #From this we must gather:
+    #   - the rest of the incident info
+    #   - related sending and recieving info
+    #   - related itemtransactions 
+
+    #Then we want to pass each of the responses as a dictionary
+    #to render_template
+
+    inc_res = db.execute('''SELECT * FROM INCIDENT
+                         WHERE INCIDENTNUM = ?''', (_incnum, )).fetchone()
+    
+    send_res = db.execute('''SELECT * FROM SHIPMENT
+                          WHERE INCIDENTNUM = ? AND DIRECTION = 0''', (_incnum, )).fetchall()
+    
+    recv_res = db.execute('''SELECT * FROM SHIPMENT
+                          WHERE INCIDENTNUM = ? AND DIRECTION = 1''', (_incnum, )).fetchall()
 
     return render_template("tracker/editincident.html", incnum=_incnum)
 
 
-def get_incidents(open=None,limit=None):
+def get_all_incidents(open=None,limit=None):
     db=get_db()
     return db.execute("SELECT * FROM INCIDENT").fetchall()
