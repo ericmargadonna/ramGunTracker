@@ -13,15 +13,40 @@ def index():
 @login_required
 def createshipment():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        key = request.form['key']
+        incidentnum = request.form['inum']
+        shiptype = request.form['shiptype'] #sending or receiving
+        gunser = request.form['gunser']
+        baseser = request.form['baseser']
+        cable = request.form['cable']
+        shipdate = request.form['shipdate']
+        notes = request.form['notes']
+
+        
+
         db = get_db()
         error = None
 
+        if shiptype == "sending":
+            shiptype = 0
+        elif shiptype == "receiving":
+            shiptype = 1
 
         #Create shipment logic
-        pass
+        try:
+            db.execute("INSERT INTO SHIPMENT (INCIDENTNUM, DIRECTION, GUNSER, BASESER, CABLE, SHIPDATE, NOTES) VALUES (?,?,?,?,?,?,?)", 
+                    (incidentnum, shiptype, gunser, baseser, cable, shipdate, notes))
+            db.commit()
+        except db.IntegrityError:
+            error = f"Incident number {incidentnum} doesn't exist!"
+        except db.Error as e:
+            print(e)
+            error = "An error occurred while inserting values into database"
+        
+        if error is not None:
+            flash(error, "error")
+        else:
+            flash(f"Shipment added to database.")
+
     return render_template('tracker/createshipment.html')
 
 @bp.route('/createincident', methods=('GET','POST'))
@@ -72,12 +97,14 @@ def search():
                      FROM INCIDENT
                      WHERE A>0 OR B>0 OR C>0 OR D>0
                      ''', (search, search, search, search)).fetchall()
-    return render_template("tracker/components/incidentcards.html", incidents=res)
+    return render_template("tracker/components/incidentcard.html", incidents=res)
 
-@bp.route('/edit', methods=('GET', 'POST'))
+@bp.route('/details', methods=('GET', 'POST'))
 @login_required
-def edit():
+def details():
     _incnum = request.args.get("_incnum")
+
+    #Check for if a user manually goes to /edit endpoint without an argument
     if _incnum == None:
         return redirect(url_for('tracker.viewincidents'))
     
@@ -102,9 +129,10 @@ def edit():
     recv_res = db.execute('''SELECT * FROM SHIPMENT
                           WHERE INCIDENTNUM = ? AND DIRECTION = 1''', (_incnum, )).fetchall()
 
-    return render_template("tracker/editincident.html", incnum=_incnum)
+    return render_template("tracker/incidentdetails.html", incident=inc_res, send_list=send_res, recv_list=recv_res)
 
 
 def get_all_incidents(open=None,limit=None):
     db=get_db()
     return db.execute("SELECT * FROM INCIDENT").fetchall()
+
