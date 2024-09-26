@@ -1,5 +1,5 @@
 {% extends 'tracker/trackerbase.html' %}
-
+{% block title %}Create Shipment{% endblock %}
 {% block content %}
 <div class="flex justify-center">
     <form method="post" id="shipmentcreationform">
@@ -8,6 +8,8 @@
         <input type="radio" id="sending" name="shiptype">
         <label for="receiving">Receiving</label>
         <input type="radio" id="receiving" name="shiptype"><br>
+        <label for="incnum">Incident Number</label>
+        <input type="text" name="incnum"><br>
         <label for="gun">Gun S/N</label>
         <input type="text" name="gun"><br>
         <label for="base">Base S/N</label>
@@ -18,6 +20,8 @@
         <input type="date" name="date"><br>
         <label for="tracking">USPS Tracking Number</label>
         <input type="text" name="tracking"><br>
+        <label for="notes">Notes</label>
+        <textarea class="border-2" id="notes" name="notes"></textarea><br>
         <input class="border-2 bg-slate-300" type="submit" value="Create Shipment">
     </form>
 </div>
