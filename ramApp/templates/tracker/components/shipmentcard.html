@@ -1,0 +1,13 @@
+{% macro shipmentcard(gunser, baseser, cable, date, tracking, notes, completed, direction, incidentnum) %}
+    <div class="w-full flex p-2 self-center border-2 m-2 rounded-md">
+        <p class="px-2 border-r-2">{{ gunser }}</p>
+        <p class="px-2 border-r-2">{{ baseser }}</p>
+        <p class="px-2 border-r-2">{{ cable }}</p>
+        <p class="px-2 border-r-2">{{ date }}</p>
+        <p class="px-2 border-r-2">{{ tracking }}</p>
+        <p class="px-2 border-r-2">{{ notes }}</p>
+        <p class="px-2 border-r-2">{{ completed }}</p>
+        <p class="px-2 border-r-2">{{ direction }}</p>
+        <p class="px-2 border-r-2">{{ incidentnum }}</p>
+    </div>
+{% endmacro %}
