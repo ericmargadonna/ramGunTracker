@@ -1,13 +1,28 @@
-{% macro shipmentcard(gunser, baseser, cable, date, tracking, notes, completed, direction, incidentnum) %}
-    <div class="w-full flex p-2 self-center border-2 m-2 rounded-md">
-        <p class="px-2 border-r-2">{{ gunser }}</p>
-        <p class="px-2 border-r-2">{{ baseser }}</p>
-        <p class="px-2 border-r-2">{{ cable }}</p>
-        <p class="px-2 border-r-2">{{ date }}</p>
-        <p class="px-2 border-r-2">{{ tracking }}</p>
-        <p class="px-2 border-r-2">{{ notes }}</p>
-        <p class="px-2 border-r-2">{{ completed }}</p>
-        <p class="px-2 border-r-2">{{ direction }}</p>
-        <p class="px-2 border-r-2">{{ incidentnum }}</p>
+{% macro shipmentcard(gunser, baseser, cable, date, tracking, notes, completed) %}
+    <div class="flex w-fit flex-col self-center border-2 rounded-md">
+        <div class="flex flex-row border-b-2">
+            <p class="">{{ tracking }}</p>
+            <span class="flex-grow"></span>
+            <p class="">{{ date }}</p>
+        </div>
+        <div class="flex flex-row p-2">
+            <div class="border-r-2">
+                <p class="">Gun: {{ gunser }}</p>
+                <p class="">Base: {{ baseser }}</p>
+                <p class="">Cables: {{ cable }}</p>
+            </div>
+            <div class="flex flex-col p-2">
+                <p>Notes:</p>
+                <p class="border-2">{{ notes }}</p>
+                <span class="flex-grow"></span>
+                <p>Status: 
+                {% if completed %}
+                    Complete
+                {% else %}
+                    Waiting
+                {% endif %}
+                </p>
+            </div>
+        </div>
     </div>
 {% endmacro %}

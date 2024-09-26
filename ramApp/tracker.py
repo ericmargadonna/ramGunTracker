@@ -13,28 +13,28 @@ def index():
 @login_required
 def createshipment():
     if request.method == 'POST':
-        incidentnum = request.form['inum']
+        incidentnum = request.form['incnum']
         shiptype = request.form['shiptype'] #sending or receiving
-        gunser = request.form['gunser']
-        baseser = request.form['baseser']
+        gunser = request.form['gun']
+        baseser = request.form['base']
         cable = request.form['cable']
-        shipdate = request.form['shipdate']
+        date = request.form['date']
+        tracking = request.form['tracking']
         notes = request.form['notes']
-
-        
 
         db = get_db()
         error = None
+
+        print(shiptype)
 
         if shiptype == "sending":
             shiptype = 0
         elif shiptype == "receiving":
             shiptype = 1
 
-        #Create shipment logic
         try:
-            db.execute("INSERT INTO SHIPMENT (INCIDENTNUM, DIRECTION, GUNSER, BASESER, CABLE, SHIPDATE, NOTES) VALUES (?,?,?,?,?,?,?)", 
-                    (incidentnum, shiptype, gunser, baseser, cable, shipdate, notes))
+            db.execute("INSERT INTO SHIPMENT (GUNSER, BASESER, CABLE, DATE, TRACKING, NOTES, DIRECTION, INCIDENTNUM) VALUES (?,?,?,?,?,?,?,?)", 
+                    ( gunser, baseser, cable, date, tracking, notes, shiptype, incidentnum ))
             db.commit()
         except db.IntegrityError:
             error = f"Incident number {incidentnum} doesn't exist!"
@@ -99,7 +99,7 @@ def search():
                      ''', (search, search, search, search)).fetchall()
     return render_template("tracker/components/incidentcard.html", incidents=res)
 
-@bp.route('/details', methods=('GET', 'POST'))
+@bp.route('/details')
 @login_required
 def details():
     _incnum = request.args.get("_incnum")
@@ -128,6 +128,10 @@ def details():
     
     recv_res = db.execute('''SELECT * FROM SHIPMENT
                           WHERE INCIDENTNUM = ? AND DIRECTION = 1''', (_incnum, )).fetchall()
+    
+    print(inc_res)
+    print(send_res)
+    print(recv_res)
 
     return render_template("tracker/incidentdetails.html", incident=inc_res, send_list=send_res, recv_list=recv_res)
 

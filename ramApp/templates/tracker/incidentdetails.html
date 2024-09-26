@@ -16,7 +16,7 @@
                                      burger=False) }}
     </div>
     <div class="flex flex-row">
-        <div class="flex-1 border-2 m-2 rounded-md">
+        <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
             <h1>Sending</h1>
             {% if send_list == [] %}
                 <div>+</div>
@@ -24,23 +24,24 @@
 
             {% else %}
                 {% for send in send_list %}
-                    {{ shipmentcard.shipmentcard(send["SHIPMENTNUM"],
-                                                  send["GUN"],
-                                                  send["BASE"],
+                    {{ shipmentcard.shipmentcard(
+                                                  send["GUNSER"],
+                                                  send["BASESER"],
                                                   send["CABLE"],
                                                   send["DATE"],
                                                   send["TRACKING"],
-                                                  send["STATUS"]) }}
+                                                  send["NOTES"],
+                                                  send["COMPLETED"]) }}
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="flex-1 border-2 m-2 rounded-md">
+        <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
             <h1>Recieving</h1>
             {% if recv_list == [] %}
                 <div>+</div>
             {% else %}
                 {% for rec in recv_list %}
-                    {{ shipmentcard.shipmentcard(rec["SHIPMENTNUM"],
+                    {{ shipmentcard.shipmentcard(rec[""],
                                                   rec["GUN"],
                                                   rec["BASE"],
                                                   rec["CABLE"],
