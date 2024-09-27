@@ -1,25 +1,42 @@
-{% macro shipmentcard(gunser, baseser, cable, date, tracking, notes, completed) %}
-    <div class="flex w-fit flex-col self-center border-2 rounded-md m-2">
-        <div class="flex flex-row border-b-2 p-2">
-            <p class="">{{ tracking }}</p>
-            <span class="flex-grow"></span>
-            <p class="">{{ date }}</p>
-            <a href="" class="max-h-4 max-w-4 min-h-4 min-w-4" ><button  type="button"><img src="static/images/edit.svg"></button></a>
+{% macro shipmentcard(id, gunser, baseser, cable, date, tracking, notes, completed) %}
+    <div name="cardcontainer" class="flex w-[85%] flex-col self-center border-2 rounded-md m-2">
+        <div name="cardheader" class="flex flex-row border-b-2 p-2">
+            <div name="trackingnumbersection" class="flex grow flex-col border-l-2">
+                <p class="italic text-xs font-thin text-slate-500">Tracking Number</p>
+                <p class="">{{ tracking }}</p>
+            </div>
+            <div name="datesection" class="flex grow flex-col border-l-2">
+                <p class="italic text-xs font-thin text-slate-500">Date Created</p>
+                <p class="">{{ date }}</p>
+            </div>
+            <div name="editbutton" class="flex flex-row grow justify-end">
+                <!-- {{ url_for("tracker.edit", type="shipment", id=id) }} -->
+                <a href="" class="max-h-4 max-w-4 min-h-4 min-w-4 " ><button  type="button"><img src="static/images/edit.svg"></button></a>
+            </div>
         </div>
         <div class="flex flex-row p-2">
-            <div class="border-r-2 p-2">
-                <p class="">Gun: {{ gunser }}</p>
-                <p class="">Base: {{ baseser }}</p>
-                <p class="">Cables: {{ cable }}</p>
+            <div name='itemsdetails' class="border-r-2 p-2">
+                <div name="gundetails" class="flex grow flex-col border-l-2 mb-2">
+                    <p class="italic text-xs font-thin text-slate-500">Gun Serial</p>
+                    <p class="">{{ gunser }}</p>
+                </div>
+                <div name="basedetails" class="flex grow flex-col border-l-2 mb-2">
+                    <p class="italic text-xs font-thin text-slate-500">Base Serial</p>
+                    <p class="">{{ baseser }}</p>
+                </div>
+                <div name="cabledetails" class="flex grow flex-col border-l-2">
+                    <p class="italic text-xs font-thin text-slate-500">Cables</p>
+                    <p class="">{{ cable }}</p>
+                </div>
             </div>
-            <div class="flex flex-col border-r-2 p-2">
+            <div name="notes"  class="flex flex-col border-r-2 p-2">
                 <p class="border-b-2">Notes:</p>
                 <p class="">{{ notes }}</p>
             </div>
-            <div class="flex flex-col p-2">
-                <p>Status: </p>
+            <div name="status" class="flex flex-col p-2">
+                <p>Delivered On: </p>
                 {% if completed %}
-                    <p class="text-green-700">Complete</p>
+                    <p class="text-green-700">{{ completed }}</p>
                 {% else %}
                     <p class="text-amber-600">Waiting</p>
                 {% endif %}

@@ -4,12 +4,23 @@
 <div class="flex justify-center">
     <form method="post" id="shipmentcreationform">
         <h4 class="text-2xl underline">Shipment Creation Form</h4>
+        
+        <input type="radio" id="sending" value="sending" name="shiptype"
+        {% if shiptype == 'sending' %}
+            checked="true"
+        {% endif %}>
         <label for="sending">Sending</label>
-        <input type="radio" id="sending" value="sending" name="shiptype">
-        <label for="receiving">Receiving</label>
-        <input type="radio" id="receiving" value="recieving" name="shiptype"><br>
+        <span class="px-4 text-slate-400">|</span>
+        <input type="radio" id="receiving" value="recieving" name="shiptype"
+        {% if shiptype == 'receiving' %}
+            checked="true"
+        {% endif %}>
+        <label for="receiving">Receiving</label><br>
         <label for="incnum">Incident Number</label>
-        <input type="text" name="incnum"><br>
+        <input type="text" name="incnum" 
+        {% if incnum %}
+            value="{{ incnum }}"
+        {% endif %}><br>
         <label for="gun">Gun S/N</label>
         <input type="text" name="gun"><br>
         <label for="base">Base S/N</label>

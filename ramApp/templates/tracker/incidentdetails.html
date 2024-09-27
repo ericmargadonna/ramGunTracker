@@ -18,13 +18,10 @@
     <div class="flex flex-row">
         <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
             <h1 class="pt-2 pl-2">Sending</h1>
-            {% if send_list == [] %}
-                <div>+</div>
-                
-
-            {% else %}
+            {% if send_list != [] %}
                 {% for send in send_list %}
                     {{ shipmentcard.shipmentcard(
+                                                  send["ID"],
                                                   send["GUNSER"],
                                                   send["BASESER"],
                                                   send["CABLE"],
@@ -34,22 +31,30 @@
                                                   send["COMPLETED"]) }}
                 {% endfor %}
             {% endif %}
+            <div class="width-full flex flex-row justify-center">
+            <a class="border-2 rounded-full px-2 mb-2" href="{{ url_for('tracker.createshipment', incnum=incident['INCIDENTNUM'], shiptype='sending' )}}">
+                +
+            </a></div>
         </div>
         <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
             <h1 class="pt-2 pl-2">Recieving</h1>
-            {% if recv_list == [] %}
-                <div>+</div>
-            {% else %}
+            {% if recv_list != [] %}
                 {% for rec in recv_list %}
-                    {{ shipmentcard.shipmentcard(rec[""],
-                                                  rec["GUN"],
-                                                  rec["BASE"],
+                    {{ shipmentcard.shipmentcard(
+                                                  rec["ID"],
+                                                  rec["GUNSER"],
+                                                  rec["BASESER"],
                                                   rec["CABLE"],
                                                   rec["DATE"],
                                                   rec["TRACKING"],
-                                                  rec["STATUS"]) }}
+                                                  rec["NOTES"],
+                                                  rec["COMPLETED"]) }}
                 {% endfor %}
             {% endif %}
+            <div class="width-full flex flex-row justify-center">
+            <a class="border-2 rounded-full px-2 mb-2" href="{{ url_for('tracker.createshipment', incnum=incident['INCIDENTNUM'], shiptype='receiving' )}}">
+                +
+            </a></div>
         </div>
     </div>
 </section>

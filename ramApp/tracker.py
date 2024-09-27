@@ -46,8 +46,8 @@ def createshipment():
             flash(error, "error")
         else:
             flash(f"Shipment added to database.")
-
-    return render_template('tracker/createshipment.html')
+   
+    return render_template('tracker/createshipment.html', incnum=request.args.get('incnum'), shiptype=request.args.get('shiptype'))
 
 @bp.route('/createincident', methods=('GET','POST'))
 @login_required
@@ -134,6 +134,20 @@ def details():
     print(recv_res)
 
     return render_template("tracker/incidentdetails.html", incident=inc_res, send_list=send_res, recv_list=recv_res)
+
+@bp.route('/edit', methods=('GET', 'POST'))
+@login_required
+def edit():
+    edittype = request.args.get("type")
+
+    if edittype == "incident":
+        pass
+    if edittype == "shipment":
+        id = request.args.get("id")
+        db = get_db()
+    else:
+        return redirect(url_for('tracker.viewincidents'))
+
 
 
 def get_all_incidents(open=None,limit=None):
