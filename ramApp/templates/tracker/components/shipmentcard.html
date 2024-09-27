@@ -1,25 +1,27 @@
 {% macro shipmentcard(gunser, baseser, cable, date, tracking, notes, completed) %}
-    <div class="flex w-fit flex-col self-center border-2 rounded-md">
-        <div class="flex flex-row border-b-2">
+    <div class="flex w-fit flex-col self-center border-2 rounded-md m-2">
+        <div class="flex flex-row border-b-2 p-2">
             <p class="">{{ tracking }}</p>
             <span class="flex-grow"></span>
             <p class="">{{ date }}</p>
+            <a href="" class="max-h-4 max-w-4 min-h-4 min-w-4" ><button  type="button"><img src="static/images/edit.svg"></button></a>
         </div>
         <div class="flex flex-row p-2">
-            <div class="border-r-2">
+            <div class="border-r-2 p-2">
                 <p class="">Gun: {{ gunser }}</p>
                 <p class="">Base: {{ baseser }}</p>
                 <p class="">Cables: {{ cable }}</p>
             </div>
+            <div class="flex flex-col border-r-2 p-2">
+                <p class="border-b-2">Notes:</p>
+                <p class="">{{ notes }}</p>
+            </div>
             <div class="flex flex-col p-2">
-                <p>Notes:</p>
-                <p class="border-2">{{ notes }}</p>
-                <span class="flex-grow"></span>
-                <p>Status: 
+                <p>Status: </p>
                 {% if completed %}
-                    Complete
+                    <p class="text-green-700">Complete</p>
                 {% else %}
-                    Waiting
+                    <p class="text-amber-600">Waiting</p>
                 {% endif %}
                 </p>
             </div>
