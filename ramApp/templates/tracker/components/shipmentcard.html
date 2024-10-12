@@ -1,5 +1,5 @@
-{% macro shipmentcard(id, gunser, baseser, cable, date, tracking, notes, completed) %}
-    <div name="cardcontainer" class="flex w-[85%] flex-col self-center border-2 rounded-md m-2">
+{% macro shipmentcard(_id, gunser, baseser, cable, date, tracking, notes, completed) %}
+    <div name="cardcontainer" class="flex w-[85%] flex-col  border-2 rounded-md m-2">
         <div name="cardheader" class="flex flex-row border-b-2 p-2">
             <div name="trackingnumbersection" class="flex grow flex-col border-l-2">
                 <p class="italic text-xs font-thin text-slate-500">Tracking Number</p>
@@ -11,22 +11,34 @@
             </div>
             <div name="editbutton" class="flex flex-row grow justify-end">
                 <!-- {{ url_for("tracker.edit", type="shipment", id=id) }} -->
-                <a href="" class="max-h-4 max-w-4 min-h-4 min-w-4 " ><button  type="button"><img src="static/images/edit.svg"></button></a>
+                <a href="{{ url_for('tracker.edit', type='shipment', id=_id) }}" class="max-h-4 max-w-4 min-h-4 min-w-4 " ><button type="button"><img src="static/images/edit.svg"></button></a>
             </div>
         </div>
         <div class="flex flex-row p-2">
             <div name='itemsdetails' class="border-r-2 p-2">
                 <div name="gundetails" class="flex grow flex-col border-l-2 mb-2">
                     <p class="italic text-xs font-thin text-slate-500">Gun Serial</p>
-                    <p class="">{{ gunser }}</p>
+                    {% if gunser %}
+                        <p class="">{{ gunser }}</p>
+                    {% else %}
+                        <p class="italic font-thin text-slate-500">None</p>
+                    {% endif %}
                 </div>
                 <div name="basedetails" class="flex grow flex-col border-l-2 mb-2">
                     <p class="italic text-xs font-thin text-slate-500">Base Serial</p>
-                    <p class="">{{ baseser }}</p>
+                    {% if baseser %}
+                        <p class="">{{ baseser }}</p>
+                    {% else %}
+                        <p class="italic font-thin text-slate-500">None</p>
+                    {% endif %}
                 </div>
                 <div name="cabledetails" class="flex grow flex-col border-l-2">
                     <p class="italic text-xs font-thin text-slate-500">Cables</p>
-                    <p class="">{{ cable }}</p>
+                    {% if cable %}
+                        <p class="">{{ cable }}</p>
+                    {% else %}
+                        <p class="italic font-thin text-slate-500">0</p>
+                    {% endif %}
                 </div>
             </div>
             <div name="notes"  class="flex flex-col border-r-2 p-2">
