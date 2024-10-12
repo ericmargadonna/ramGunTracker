@@ -25,25 +25,28 @@ def createshipment():
         db = get_db()
         error = None
 
-        print(shiptype)
-
         if shiptype == "sending":
             shiptype = 0
         elif shiptype == "receiving":
             shiptype = 1
+        else:
+            error = "Invalid shipment type"
+            
 
-        try:
-            db.execute("INSERT INTO SHIPMENT (GUNSER, BASESER, CABLE, DATE, TRACKING, NOTES, DIRECTION, INCIDENTNUM) VALUES (?,?,?,?,?,?,?,?)", 
-                    ( gunser, baseser, cable, date, tracking, notes, shiptype, incidentnum ))
-            db.commit()
-        except db.IntegrityError:
-            error = f"Incident number {incidentnum} doesn't exist!"
-        except db.Error as e:
-            print(e)
-            error = "An error occurred while inserting values into database"
+        if error is None:
+            try:
+                db.execute("INSERT INTO SHIPMENT (GUNSER, BASESER, CABLE, DATE, TRACKING, NOTES, DIRECTION, INCIDENTNUM) VALUES (?,?,?,?,?,?,?,?)", 
+                        ( gunser, baseser, cable, date, tracking, notes, shiptype, incidentnum ))
+                db.commit()
+            except db.IntegrityError:
+                error = f"Incident number {incidentnum} doesn't exist!"
+            except db.Error as e:
+                print(e)
+                error = "An error occurred while inserting values into database"
         
         if error is not None:
             flash(error, "error")
+
         else:
             flash(f"Shipment added to database.")
    
@@ -145,6 +148,8 @@ def edit():
     if edittype == "shipment":
         id = request.args.get("id")
         db = get_db()
+
+        return render_template("tracker/edit.html", id=id)
     else:
         return redirect(url_for('tracker.viewincidents'))
 
