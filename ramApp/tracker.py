@@ -132,9 +132,9 @@ def details():
     recv_res = db.execute('''SELECT * FROM SHIPMENT
                           WHERE INCIDENTNUM = ? AND DIRECTION = 1''', (_incnum, )).fetchall()
     
-    print(inc_res)
-    print(send_res)
-    print(recv_res)
+    # print(inc_res)    -|
+    # print(send_res)   -|- <sqlite3.Row object>
+    # print(recv_res)   -|
 
     return render_template("tracker/incidentdetails.html", incident=inc_res, send_list=send_res, recv_list=recv_res)
 
@@ -144,13 +144,42 @@ def edit():
     edittype = request.args.get("type")
 
     if edittype == "incident":
+        if request.method == 'POST':
+            pass
         pass
+
     if edittype == "shipment":
         id = request.args.get("id")
         db = get_db()
 
-        return render_template("tracker/edit.html", id=id)
+        if request.method == 'POST':
+            data = (
+                request.form['gun'],
+                request.form['base'],
+                request.form['cable'],
+                request.form['date'],
+                request.form['tracking'],
+                request.form['notes'],
+                id
+            )
+
+            db.execute('''UPDATE SHIPMENT 
+                       SET GUNSER = ?,
+                           BASESER = ?,
+                           CABLE = ?,
+                           DATE = ?,
+                           TRACKING = ?,
+                           NOTES = ?
+                       WHERE ID = ?''', data)
+            db.commit()
+
+        res = db.execute('''SELECT * FROM SHIPMENT
+                        WHERE ID = ?''', (id,)).fetchone()
+
+        return render_template("tracker/edit.html", type=edittype, data=res)
+    
     else:
+    #edittype undefined
         return redirect(url_for('tracker.viewincidents'))
 
 

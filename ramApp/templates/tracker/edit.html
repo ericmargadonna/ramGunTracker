@@ -2,5 +2,44 @@
 {% block title %}Edit{% endblock %}
 
 {% block content %}
-    <p>{{ id }}</p>
+    {% if type == "shipment" %}
+    <div class="flex-col justify-center items-center">
+        <div class="self-center">
+            <form method="post" id="shipmentcreationform">
+                <h4 class="text-2xl underline">Edit Shipment</h4>          
+                
+                <label for="incnum">Incident Number</label>
+                <input type="text" name="incnum" readonly value="{{ data['incidentnum'] }}"><br>
+                
+                <label for="gun">Gun S/N</label>
+                <input type="text" name="gun" value="{{ data['gunser'] }}"><br>
+
+                <label for="base">Base S/N</label>
+                <input type="text" name="base" value="{{ data['baseser'] }}"><br>
+
+                <label for="cable">Cable (0 if no cable)</label>
+                <input type="number" name="cable" value="{{ data['cable'] }}"><br>
+
+                <label for="date">Date</label>
+                <input type="date" name="date" value="{{ data['date'] }}"><br>
+
+                <label for="tracking">USPS Tracking Number</label>
+                <input type="text" name="tracking" value="{{ data['tracking'] }}"><br>
+
+                <label for="notes">Notes</label>
+                <textarea class="border-2" id="notes" name="notes">{{ data['notes'] }}</textarea><br>
+                <input class="border-2 bg-slate-300" type="submit" value="Update Shipment">
+            </form> 
+        </div>
+        <div class="self-center">
+            <a class="border-2 bg-slate-300">Delete Shipment</a>
+        </div>
+    </div>  
+
+
+    {% elif type == "incident" %}
+
+
+
+    {% endif %}        
 {% endblock %}
