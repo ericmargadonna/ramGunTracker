@@ -181,8 +181,24 @@ def edit():
     else:
     #edittype undefined
         return redirect(url_for('tracker.viewincidents'))
+    
+@bp.route('/deleteshipment/<id>', methods=["DELETE"])
+@login_required
+def delete_shipment(id):
+    db = get_db()
+    db.execute('''DELETE FROM SHIPMENT
+               WHERE ID = ?''',(id,))
+    db.commit()
+    return "Shipment Deleted From Database"
 
-
+@bp.route('/deleteincident/<incnum>', methods=["DELETE"])
+@login_required
+def delete_shipment(incnum):
+    db = get_db()
+    db.execute('''DELETE FROM INCIDENT
+               WHERE INCIDENTNUM = ?''',(incnum,))
+    db.commit()
+    return "Incident Deleted From Database"
 
 def get_all_incidents(open=None,limit=None):
     db=get_db()

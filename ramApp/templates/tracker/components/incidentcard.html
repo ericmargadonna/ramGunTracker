@@ -7,7 +7,11 @@
         <p class="px-2 max-w-[30rem]">{{ notes }}</p>
         {% if burger %}
             <span class="grow border-r-2 mr-2"></span>
-            <a href="{{ url_for( 'tracker.details', _incnum=incnum )}}" class="max-h-6 max-w-6 min-h-6 min-w-6 self-center" ><button  type="button"><img src="static/images/burger.svg"></button></a>
+            <a href="{{ url_for( 'tracker.details', type='incident', _incnum=incnum )}}" class="max-h-6 max-w-6 min-h-6 min-w-6 self-center" ><button  type="button"><img src="static/images/burger.svg"></button></a>
+        {% endif %}
+        {% if edit %}
+            <span class="grow border-r-2 mr-2"></span>
+            <a href="{{ url_for( 'tracker.edit', _incnum=incnum )}}" class="max-h-6 max-w-6 min-h-6 min-w-6 self-center" ><button  type="button"><img src="static/images/burger.svg"></button></a>
         {% endif %}
     </div>
 {% endmacro %}

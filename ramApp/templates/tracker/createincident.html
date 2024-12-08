@@ -1,8 +1,8 @@
 {% extends 'tracker/trackerbase.html' %}
 {% block title %}Create Incident{% endblock %}
 {% block content %}
-<div class='flex justify-center'>
-    <form method="post" id="incidentcreationform">
+<div class='flex flex-col items-center text-center justify-center'>
+    <form class="content-center" method="post" id="incidentcreationform">
         <h2 class="text-2xl underline">Incident Creation Form</h2>
         <label for="inum">Incident Number</label>
         <input class='border-2' type="text" id="inum" name="inum" required><br>

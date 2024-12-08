@@ -3,13 +3,14 @@
 
 {% block content %}
     {% if type == "shipment" %}
-    <div class="flex-col justify-center items-center">
-        <div class="self-center">
-            <form method="post" id="shipmentcreationform">
+    <!--Edit Shipment Page-->
+    <div class="flex flex-col justify-center items-center text-center" id="mainbody">
+        <div class="">
+            <form method="post" class="content-center" id="shipmentcreationform">
                 <h4 class="text-2xl underline">Edit Shipment</h4>          
                 
                 <label for="incnum">Incident Number</label>
-                <input type="text" name="incnum" readonly value="{{ data['incidentnum'] }}"><br>
+                <input class="bg-gray-300" type="text" name="incnum" readonly value="{{ data['incidentnum'] }}"><br>
                 
                 <label for="gun">Gun S/N</label>
                 <input type="text" name="gun" value="{{ data['gunser'] }}"><br>
@@ -28,16 +29,21 @@
 
                 <label for="notes">Notes</label>
                 <textarea class="border-2" id="notes" name="notes">{{ data['notes'] }}</textarea><br>
-                <input class="border-2 bg-slate-300" type="submit" value="Update Shipment">
+                <input class="border-2 bg-slate-300" type="submit" value="Update Shipment"><br>
             </form> 
         </div>
-        <div class="self-center">
-            <a class="border-2 bg-slate-300">Delete Shipment</a>
+        <div class="self-center mt-7">
+            <p class="text-red-700">Warning! Deletion cannot be undone!</p>
+            <button type="button" class="self-center border-2 bg-red-400"
+            hx-delete="/deleteshipment/{{ data['id'] }}"
+            hx-target="#mainbody">
+            Delete Shipment</button>
         </div>
     </div>  
 
 
     {% elif type == "incident" %}
+    <!--Edit Incident Page-->
 
 
 

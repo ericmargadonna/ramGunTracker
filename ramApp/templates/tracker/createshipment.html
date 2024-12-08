@@ -1,9 +1,9 @@
 {% extends 'tracker/trackerbase.html' %}
 {% block title %}Create Shipment{% endblock %}
 {% block content %}
-<div class="flex justify-center">
-    <form method="post" id="shipmentcreationform">
-        <h4 class="text-2xl underline">Shipment Creation Form</h4>
+<div class="flex justify-center items-center text-center">
+    <form class="" method="post" id="shipmentcreationform">
+        <h4 class="text-2xl underline">Shipment Creation Form</h4><br>
         
         <input type="radio" id="sending" value="sending" name="shiptype"
         {% if shiptype == 'sending' %}
@@ -15,7 +15,7 @@
         {% if shiptype == 'receiving' %}
             checked="true"
         {% endif %}>
-        <label for="receiving">Receiving</label><br>
+        <label for="receiving">Receiving</label><br><br>
         <label for="incnum">Incident Number</label>
         <input type="text" name="incnum" 
         {% if incnum %}
