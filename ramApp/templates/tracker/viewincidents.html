@@ -3,17 +3,14 @@
 {% block title %}View Incidents{% endblock %}
 {% block content %}
 <section class="flex flex-col justify-center">
-    <div class="self-center">
+    <div name="searchbar" class="self-center">
         <input class="border-2 border-slate-300 h-10 px-5 mt-2 rounded-lg text-sm focus:outline-none"
           type="search" placeholder="Search" name="searchinput"
           hx-post="/search"
           hx-trigger="load, input delay:500ms, search"
           hx-target="#searchtarget">
     </div>
-    <div class="flex flex-col w-max max-w-[70%] min-w-min self-center" id="cardarea">
-        <div class="flex w-max self-center" id="header">
-            {{ incidentcard("Incident Number","Date","Store Number","Contact","Notes",burger=False) }}
-        </div>
+    <div name="cardarea" class="flex flex-col w-max max-w-[70%] min-w-min self-center" id="cardarea">
         <div class="flex flex-col w-[100%] self-center" id="searchtarget"></div>
     </div>
 </section>

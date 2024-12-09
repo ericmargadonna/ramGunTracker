@@ -1,5 +1,5 @@
 {% macro shipmentcard(_id, gunser, baseser, cable, date, tracking, notes, completed) %}
-    <div name="cardcontainer" class="flex w-[85%] flex-col  border-2 rounded-md m-2">
+    <div name="shipcard-{{ _id }}" class="flex w-[85%] flex-col  border-2 rounded-md m-2">
         <div name="cardheader" class="flex flex-row border-b-2 p-2">
             <div name="trackingnumbersection" class="flex grow flex-col border-l-2">
                 <p class="italic text-xs font-thin text-slate-500">Tracking Number</p>
@@ -45,14 +45,21 @@
                 <p class="border-b-2">Notes:</p>
                 <p class="">{{ notes }}</p>
             </div>
-            <div name="status" class="flex flex-col p-2">
-                <p>Delivered On: </p>
+            <div name="status" class="flex flex-col min-w-min flex-grow p-2">
                 {% if completed %}
-                    <p class="text-green-700">{{ completed }}</p>
+                    <p class="text-green-700">Delivered on {{ completed }}</p>
                 {% else %}
-                    <p class="text-amber-600">Waiting</p>
+                <div class="flex flex-grow" id="swaptarget">
+                    <p class="text-amber-600">Waiting for delivery...</p>
+                    <div class="flex flex-grow flex-row-reverse items-end">
+                        <a class="max-h-4 max-w-4 min-h-4 min-w-4">
+                            <button hx-post="/complete/{{ _id }}" hx-target="#swaptarget">
+                                <img src="static/images/check.svg">
+                            </button>
+                        </a> 
+                    </div>   
+                </div>
                 {% endif %}
-                </p>
             </div>
         </div>
     </div>

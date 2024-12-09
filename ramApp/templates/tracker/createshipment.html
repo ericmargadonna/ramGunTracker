@@ -5,13 +5,13 @@
     <form class="" method="post" id="shipmentcreationform">
         <h4 class="text-2xl underline">Shipment Creation Form</h4><br>
         
-        <input type="radio" id="sending" value="sending" name="shiptype"
+        <input type="radio" id="sending" value="sending" name="shiptype" required
         {% if shiptype == 'sending' %}
             checked="true"
         {% endif %}>
         <label for="sending">Sending</label>
         <span class="px-4 text-slate-400">|</span>
-        <input type="radio" id="receiving" value="receiving" name="shiptype"
+        <input type="radio" id="receiving" value="receiving" name="shiptype" required
         {% if shiptype == 'receiving' %}
             checked="true"
         {% endif %}>

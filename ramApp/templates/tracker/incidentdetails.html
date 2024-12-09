@@ -13,11 +13,11 @@
                                      incident["STORENUM"], 
                                      incident["STORECONTACT"], 
                                      incident["NOTES"],
-                                     burger=False) }}
+                                     edit=True) }}
     </div>
     <div class="flex flex-row">
         <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
-            <h1 class="pt-2 pl-2">Sending</h1>
+            <h1 class="underline pt-2 pl-2">Sending</h1>
             {% if send_list != [] %}
                 {% for send in send_list %}
                     {{ shipmentcard.shipmentcard(
@@ -37,7 +37,7 @@
             </a></div>
         </div>
         <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
-            <h1 class="pt-2 pl-2">Recieving</h1>
+            <h1 class="underline pt-2 pl-2">Recieving</h1>
             {% if recv_list != [] %}
                 {% for rec in recv_list %}
                     {{ shipmentcard.shipmentcard(
@@ -54,7 +54,8 @@
             <div class="width-full flex flex-row justify-center">
             <a class="border-2 rounded-full px-2 mb-2" href="{{ url_for('tracker.createshipment', incnum=incident['INCIDENTNUM'], shiptype='receiving' )}}">
                 +
-            </a></div>
+            </a>
+            </div>
         </div>
     </div>
 </section>

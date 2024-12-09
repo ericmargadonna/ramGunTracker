@@ -18,7 +18,7 @@ def createshipment():
         gunser = request.form['gun']
         baseser = request.form['base']
         cable = request.form['cable']
-        date = request.form['date']
+        date = clean_date_from_form(request.form['date'])
         tracking = request.form['tracking']
         notes = request.form['notes']
 
@@ -57,7 +57,7 @@ def createshipment():
 def createincident():
     if request.method == 'POST':
         incidentnum = request.form['inum']
-        calldate = request.form['calldate']
+        calldate = clean_date_from_form(request.form['calldate'])
         storenum = request.form['storenum']
         storecontact = request.form['storecontact']
         notes = request.form['notes']
@@ -153,15 +153,26 @@ def edit():
         db = get_db()
 
         if request.method == 'POST':
-            data = (
-                request.form['gun'],
-                request.form['base'],
-                request.form['cable'],
-                request.form['date'],
-                request.form['tracking'],
-                request.form['notes'],
-                id
-            )
+            if request.form['date']:
+                data = (
+                    request.form['gun'],
+                    request.form['base'],
+                    request.form['cable'],
+                    clean_date_from_form(request.form['date']),
+                    request.form['tracking'],
+                    request.form['notes'],
+                    id
+                )
+            else:
+                data = (
+                    request.form['gun'],
+                    request.form['base'],
+                    request.form['cable'],
+                    request.form['date'],
+                    request.form['tracking'],
+                    request.form['notes'],
+                    id
+                )
 
             db.execute('''UPDATE SHIPMENT 
                        SET GUNSER = ?,
@@ -193,14 +204,31 @@ def delete_shipment(id):
 
 @bp.route('/deleteincident/<incnum>', methods=["DELETE"])
 @login_required
-def delete_shipment(incnum):
+def delete_incident(incnum):
     db = get_db()
     db.execute('''DELETE FROM INCIDENT
                WHERE INCIDENTNUM = ?''',(incnum,))
     db.commit()
     return "Incident Deleted From Database"
 
+@bp.route('/complete/<id>', methods=["POST"])
+@login_required
+def complete_shipment(id):
+    from datetime import datetime
+    current_date=datetime.now().strftime("%m/%d/%Y")
+    db = get_db()
+    db.execute('''UPDATE SHIPMENT
+                  SET COMPLETED = ?
+                  WHERE ID = ?''', (current_date ,id,))
+    db.commit()
+    return "<p class='text-green-700'>Marked complete just now.</p>"
+
 def get_all_incidents(open=None,limit=None):
     db=get_db()
     return db.execute("SELECT * FROM INCIDENT").fetchall()
+
+def clean_date_from_form(datestr):
+    values = datestr.split('-')
+    cleansed = "-".join([values[1],values[2],values[0]])
+    return cleansed
 

@@ -1,21 +1,40 @@
-{% macro incidentcard(incnum,date,storenum,storecontact,notes, sendstatus=None, recstatus=None, burger=True) %}
-    <div name='card-{{ incnum  }}' class='w-full flex p-2 self-center border-2 m-2 rounded-md'>
-        <p class="px-2 border-r-2">{{ incnum }}</p>
-        <p class="px-2 border-r-2 min-w-[8rem]">{{ date }}</p>
-        <p class="px-2 border-r-2">{{ storenum }}</p>
-        <p class="px-2 border-r-2">{{ storecontact }}</p>
-        <p class="px-2 max-w-[30rem]">{{ notes }}</p>
+{% macro incidentcard(incnum,date,storenum,storecontact,notes,burger=False,edit=Flase) %}
+    <div name='card-{{ incnum  }}' class='w-full flex flex-row p-2 self-center border-2 m-2 rounded-md'>
+        <div class="flex flex-col flex-grow pr-2 border-r-2 min-w-[5rem]">
+            <p class="italic text-xs font-thin text-slate-500">Incident Number</p>
+            <p class="">{{ incnum }}</p>
+        </div>
+
+        <div class="flex flex-col flex-grow pl-1 pr-2 border-r-2 w-[6rem]">
+            <p class="italic text-xs font-thin text-slate-500">Call Date</p>
+            <p class="">{{ date }}</p>
+        </div>
+
+        <div class="flex flex-col flex-grow pl-1 pr-2 border-r-2">
+            <p class="italic text-xs font-thin text-slate-500">Store Number</p>
+            <p class="">{{ storenum }}</p>
+        </div>
+
+        <div class="flex flex-col flex-grow pl-1 pr-2 border-r-2">
+            <p class="italic text-xs font-thin text-slate-500">Contact</p>
+            <p class="">{{ storecontact }}</p>
+        </div>
+
+        <div class="flex flex-col flex-grow pl-1 max-w-[40%] min-w-[15%]">
+            <p class="italic text-xs font-thin text-slate-500">Notes</p>
+            <p class="">{{ notes }}</p>
+        </div>
+        
         {% if burger %}
             <span class="grow border-r-2 mr-2"></span>
             <a href="{{ url_for( 'tracker.details', type='incident', _incnum=incnum )}}" class="max-h-6 max-w-6 min-h-6 min-w-6 self-center" ><button  type="button"><img src="static/images/burger.svg"></button></a>
-        {% endif %}
-        {% if edit %}
+        {% elif edit %}
             <span class="grow border-r-2 mr-2"></span>
-            <a href="{{ url_for( 'tracker.edit', _incnum=incnum )}}" class="max-h-6 max-w-6 min-h-6 min-w-6 self-center" ><button  type="button"><img src="static/images/burger.svg"></button></a>
+            <a href="{{ url_for( 'tracker.edit', type='incident', _incnum=incnum )}}" class="max-h-6 max-w-6 min-h-6 min-w-6 self-center" ><button  type="button"><img src="static/images/edit.svg"></button></a>
         {% endif %}
     </div>
 {% endmacro %}
 
 {% for inc in incidents %}
-    {{ incidentcard(inc["INCIDENTNUM"],inc["CALLDATE"],inc["STORENUM"],inc["STORECONTACT"],inc["NOTES"]) }}
+    {{ incidentcard(inc["INCIDENTNUM"],inc["CALLDATE"],inc["STORENUM"],inc["STORECONTACT"],inc["NOTES"], burger=True) }}
 {% endfor %}
