@@ -3,28 +3,38 @@
         <div name="cardheader" class="flex flex-row border-b-2 p-2">
             <div name="trackingnumbersection" class="flex grow flex-col border-l-2">
                 <p class="italic text-xs font-thin text-slate-500">Tracking Number</p>
-                <p class="">{{ tracking }}</p>
+                
+                {% if tracking %}
+                    <p class="">{{ tracking }}</p>
+                {% else %}
+                    <p class="italic font-thin text-slate-500">No Tracking Number</p>
+                {% endif %}
             </div>
             <div name="datesection" class="flex grow flex-col border-l-2">
-                <p class="italic text-xs font-thin text-slate-500">Date Created</p>
-                <p class="">{{ date }}</p>
+                <p class="italic text-xs font-thin text-slate-500">Date Sent</p>
+                {% if date %}
+                    <p class="">{{ date }}</p>
+                {% else %}
+                    <p class="italic font-thin text-slate-500">Not Sent</p>
+                {% endif %}
             </div>
             <div name="editbutton" class="flex flex-row grow justify-end">
                 <!-- {{ url_for("tracker.edit", type="shipment", id=id) }} -->
                 <a href="{{ url_for('tracker.edit', type='shipment', id=_id) }}" class="max-h-4 max-w-4 min-h-4 min-w-4 " ><button type="button"><img src="static/images/edit.svg"></button></a>
             </div>
         </div>
-        <div class="flex flex-row p-2">
-            <div name='itemsdetails' class="border-r-2 p-2">
-                <div name="gundetails" class="flex grow flex-col border-l-2 mb-2">
+        <div name="cardbody" class="flex flex-row p-2">
+            <div name='itemsdetails' class="flex flex-col flex-grow max-w-[30%] border-r-2">
+                <div name="gundetails" class="flex  flex-col border-l-2 mb-3">
                     <p class="italic text-xs font-thin text-slate-500">Gun Serial</p>
+                    <span></span>
                     {% if gunser %}
                         <p class="">{{ gunser }}</p>
                     {% else %}
                         <p class="italic font-thin text-slate-500">None</p>
                     {% endif %}
                 </div>
-                <div name="basedetails" class="flex grow flex-col border-l-2 mb-2">
+                <div name="basedetails" class="flex flex-col border-l-2 mb-3">
                     <p class="italic text-xs font-thin text-slate-500">Base Serial</p>
                     {% if baseser %}
                         <p class="">{{ baseser }}</p>
@@ -32,7 +42,7 @@
                         <p class="italic font-thin text-slate-500">None</p>
                     {% endif %}
                 </div>
-                <div name="cabledetails" class="flex grow flex-col border-l-2">
+                <div name="cabledetails" class="flex flex-col border-l-2">
                     <p class="italic text-xs font-thin text-slate-500">Cables</p>
                     {% if cable %}
                         <p class="">{{ cable }}</p>
@@ -41,24 +51,28 @@
                     {% endif %}
                 </div>
             </div>
-            <div name="notes"  class="flex flex-col border-r-2 p-2">
-                <p class="border-b-2">Notes:</p>
-                <p class="">{{ notes }}</p>
-            </div>
+            {% if notes %}
+                <div name="notes" class="flex flex-col max-w-[33%] border-r-2 p-2">
+                    <p class="border-b-2">Notes:</p>
+                    <p class="">{{ notes }}</p>
+                </div>
+            {% endif %}
             <div name="status" class="flex flex-col min-w-min flex-grow p-2">
                 {% if completed %}
                     <p class="text-green-700">Delivered on {{ completed }}</p>
                 {% else %}
-                <div class="flex flex-grow" id="swaptarget">
-                    <p class="text-amber-600">Waiting for delivery...</p>
-                    <div class="flex flex-grow flex-row-reverse items-end">
-                        <a class="max-h-4 max-w-4 min-h-4 min-w-4">
-                            <button hx-post="/complete/{{ _id }}" hx-target="#swaptarget">
-                                <img src="static/images/check.svg">
-                            </button>
-                        </a> 
-                    </div>   
-                </div>
+                    <div class="flex flex-col flex-grow" id="completed_swaptarget">
+                        <p class="text-amber-600">Waiting for delivery...</p>
+                        <div class="flex flex-grow flex-row-reverse items-end">
+                                                                <!--  \/ what? why do i have to do this to *actually* center the thing?????-->
+                            <a class="max-h-4 max-w-4 min-h-4 min-w-4 mb-[1px] items-center justify-center">
+                                <button hx-post="/complete/{{ _id }}" hx-target="#completed_swaptarget">
+                                    <img src="static/images/check.svg">
+                                </button>
+                            </a> 
+                            <p class="text-xs text-green-700  text-justify text-nowrap mr-1 pr-1 border-r-2">mark as delivered</p>
+                        </div>   
+                    </div>
                 {% endif %}
             </div>
         </div>

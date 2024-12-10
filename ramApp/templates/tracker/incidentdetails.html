@@ -6,8 +6,8 @@
 <div class="m-2">
 <a href="javascript:window.history.back();" class="border-2 border-r-2 bg-slate-200">Back to Search</a>
 </div>
-<section class="flex flex-col">
-    <div class="flex flex-row">
+<section name="pagebody" class="flex flex-col items-center">
+    <div name="incidentcardcontainer" class="w-[70%]">
         {{ incidentcard.incidentcard(incident["INCIDENTNUM"],
                                      incident["CALLDATE"], 
                                      incident["STORENUM"], 
@@ -15,9 +15,10 @@
                                      incident["NOTES"],
                                      edit=True) }}
     </div>
-    <div class="flex flex-row">
-        <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
-            <h1 class="underline pt-2 pl-2">Sending</h1>
+    <div name="shipmentssection" class="flex flex-row w-full px-4">
+        <div name="sendingsection" class="flex-col w-[50%] border-2 m-2 rounded-md">
+            <div class="flex flex-row-reverse"><h1 class="underline pt-2 pr-2">Sending</h1></div>
+            <div name="sendingcards" class="flex flex-col items-center">
             {% if send_list != [] %}
                 {% for send in send_list %}
                     {{ shipmentcard.shipmentcard(
@@ -31,13 +32,15 @@
                                                   send["COMPLETED"]) }}
                 {% endfor %}
             {% endif %}
+            </div>
             <div class="width-full flex flex-row justify-center">
             <a class="border-2 rounded-full px-2 mb-2" href="{{ url_for('tracker.createshipment', incnum=incident['INCIDENTNUM'], shiptype='sending' )}}">
                 +
             </a></div>
         </div>
-        <div class="flex-auto w-[50%] border-2 m-2 rounded-md">
+        <div name="recievingsection" class="flex-col w-[50%] border-2 m-2 rounded-md">
             <h1 class="underline pt-2 pl-2">Recieving</h1>
+            <div name="recievingcards" class="flex flex-col items-center">
             {% if recv_list != [] %}
                 {% for rec in recv_list %}
                     {{ shipmentcard.shipmentcard(
@@ -51,10 +54,11 @@
                                                   rec["COMPLETED"]) }}
                 {% endfor %}
             {% endif %}
-            <div class="width-full flex flex-row justify-center">
-            <a class="border-2 rounded-full px-2 mb-2" href="{{ url_for('tracker.createshipment', incnum=incident['INCIDENTNUM'], shiptype='receiving' )}}">
-                +
-            </a>
+            </div>
+            <div class="flex flex-row justify-center">
+                <a class="border-2 rounded-full px-2 mb-2" href="{{ url_for('tracker.createshipment', incnum=incident['INCIDENTNUM'], shiptype='receiving' )}}">
+                    +
+                </a>
             </div>
         </div>
     </div>

@@ -18,7 +18,7 @@ def createshipment():
         gunser = request.form['gun']
         baseser = request.form['base']
         cable = request.form['cable']
-        date = clean_date_from_form(request.form['date'])
+        date = request.form['date']
         tracking = request.form['tracking']
         notes = request.form['notes']
 
@@ -57,7 +57,7 @@ def createshipment():
 def createincident():
     if request.method == 'POST':
         incidentnum = request.form['inum']
-        calldate = clean_date_from_form(request.form['calldate'])
+        calldate = request.form['calldate']
         storenum = request.form['storenum']
         storecontact = request.form['storecontact']
         notes = request.form['notes']
@@ -144,36 +144,47 @@ def edit():
     edittype = request.args.get("type")
 
     if edittype == "incident":
+        incnum = request.args.get("_incnum")
+        db = get_db()
+
         if request.method == 'POST':
-            pass
-        pass
+            data = (
+                request.form['calldate'],
+                request.form['storenum'],
+                request.form['storecontact'],
+                request.form['notes'],
+                request.form['incnum'],
+            )
+            
+            db.execute('''UPDATE INCIDENT 
+                          SET CALLDATE = ?,
+                              STORENUM = ?,
+                              STORECONTACT = ?,
+                              NOTES = ?
+                          WHERE INCIDENTNUM = ?''', data)
+            db.commit()
+
+        res = db.execute('''SELECT * FROM INCIDENT
+                        WHERE INCIDENTNUM = ?''', (incnum,)).fetchone()
+        
+
+        return render_template("tracker/edit.html", type=edittype,data=res)
 
     if edittype == "shipment":
         id = request.args.get("id")
         db = get_db()
 
         if request.method == 'POST':
-            if request.form['date']:
-                data = (
-                    request.form['gun'],
-                    request.form['base'],
-                    request.form['cable'],
-                    clean_date_from_form(request.form['date']),
-                    request.form['tracking'],
-                    request.form['notes'],
-                    id
-                )
-            else:
-                data = (
-                    request.form['gun'],
-                    request.form['base'],
-                    request.form['cable'],
-                    request.form['date'],
-                    request.form['tracking'],
-                    request.form['notes'],
-                    id
-                )
-
+            
+            data = (
+                request.form['gun'],
+                request.form['base'],
+                request.form['cable'],
+                request.form['date'],
+                request.form['tracking'],
+                request.form['notes'],
+                id)
+            
             db.execute('''UPDATE SHIPMENT 
                        SET GUNSER = ?,
                            BASESER = ?,
@@ -227,8 +238,12 @@ def get_all_incidents(open=None,limit=None):
     db=get_db()
     return db.execute("SELECT * FROM INCIDENT").fetchall()
 
-def clean_date_from_form(datestr):
+def convert_date(datestr, toForm=False):
     values = datestr.split('-')
-    cleansed = "-".join([values[1],values[2],values[0]])
-    return cleansed
+    if toForm:
+        rtnstr = "-".join([values[2],values[0],values[1]])
+    else:
+        rtnstr = "-".join([values[1],values[2],values[0]])
+    return rtnstr
+
 

@@ -4,9 +4,9 @@
 {% block content %}
     {% if type == "shipment" %}
     <!--Edit Shipment Page-->
-    <div class="flex flex-col justify-center items-center text-center">
+    <div id="formarea" class="flex flex-col justify-center items-center text-center">
         <div class="">
-            <form name="shipment_editform" method="post" class="content-center">
+            <form name="editshipmentform" method="post" class="content-center">
                 <h4 class="text-2xl underline">Edit Shipment</h4>          
                 
                 <label for="incnum">Incident Number</label>
@@ -36,7 +36,7 @@
             <p class="text-red-700">Warning! Deletion cannot be undone!</p>
             <button type="button" class="self-center border-2 bg-red-400"
             hx-delete="/deleteshipment/{{ data['id'] }}"
-            hx-target="#mainbody">
+            hx-target="#formarea">
             Delete Shipment</button>
         </div>
     </div>  
@@ -45,20 +45,23 @@
     {% elif type == "incident" %}
     <!--Edit Incident Page-->
     <div class='flex flex-col items-center text-center justify-center'>
-        <form class="content-center" method="post" id="incidentcreationform">
-            <h2 class="text-2xl underline">Incident Creation Form</h2>
-            <label for="inum">Incident Number</label>
-            <input class='border-2' type="text" id="inum" name="inum" required><br>
-            <label for="calldate">Call Date</label>
-            <input class='border-2' type="date" id="calldate" name="calldate" required><br>
-            <label for="storenum">Store Number</label>
-            <input class='border-2' type="text" id="storenum" name="storenum" required><br>
-            <label for="storecontact">Store Contact</label>
-            <input class='border-2' type="text" id="storecontact" name="storecontact"><br>
-            <label for="notes">Notes</label>
-            <textarea class="border-2" id="notes" name="notes"></textarea><br>
-            <input class='border-2 bg-slate-300' type="submit" value="Create Incident"></button>
-        </form>
+        <div>
+            <form name="incidentupdateform" class="content-center" method="post">
+                <h2 class="text-2xl underline">Update Incident Form</h2>
+                <label for="incnum">Incident Number</label>
+                <input class='border-2 bg-slate-300' type="text" id="incnum" name="incnum" readonly value="{{ data['incidentnum'] }}" required><br>
+                <label for="calldate">Call Date</label>
+                <input class='border-2' type="date" id="calldate" name="calldate" value="{{ data['calldate'] }}" required><br>
+                <label for="storenum">Store Number</label>
+                <input class='border-2' type="text" id="storenum" name="storenum" value="{{ data['storenum'] }}" required><br>
+                <label for="storecontact">Store Contact</label>
+                <input class='border-2' type="text" id="storecontact" name="storecontact" value="{{ data['storecontact'] }}"><br>
+                <label for="notes">Notes</label>
+                <textarea class="border-2" id="notes" name="notes">{{ data['notes'] }}</textarea><br>
+                <input class='border-2 bg-slate-300' type="submit" value="Update Incident"></button>
+            </form>
+        </div>
+        <div></div>
     </div>
     {% endif %}        
 {% endblock %}

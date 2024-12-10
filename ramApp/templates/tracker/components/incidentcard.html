@@ -17,12 +17,22 @@
 
         <div class="flex flex-col flex-grow pl-1 pr-2 border-r-2">
             <p class="italic text-xs font-thin text-slate-500">Contact</p>
-            <p class="">{{ storecontact }}</p>
+            {% if storecontact %}
+                <p class="">{{ storecontact }}</p>
+            {% else %}
+                <p class="text-slate-500">-</p>
+            {% endif %}
+            
+            
         </div>
 
         <div class="flex flex-col flex-grow pl-1 max-w-[40%] min-w-[15%]">
             <p class="italic text-xs font-thin text-slate-500">Notes</p>
-            <p class="">{{ notes }}</p>
+            {% if notes %}
+                <p class="">{{ notes }}</p>
+            {% else %}
+                <p class="text-slate-500">-</p>
+            {% endif %}
         </div>
         
         {% if burger %}
