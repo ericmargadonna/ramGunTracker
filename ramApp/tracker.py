@@ -1,16 +1,16 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from ramApp.db import get_db
-from ramApp.auth import login_required
+#from ramApp.auth import login_required
 
 bp = Blueprint('tracker', __name__)
 
 @bp.route('/')
-@login_required
+#@login_required
 def index():
     return render_template('tracker/index.html')
 
 @bp.route('/createshipment',methods=('GET','POST'))
-@login_required
+#@login_required
 def createshipment():
     if request.method == 'POST':
         incidentnum = request.form['incnum']
@@ -53,7 +53,7 @@ def createshipment():
     return render_template('tracker/createshipment.html', incnum=request.args.get('incnum'), shiptype=request.args.get('shiptype'))
 
 @bp.route('/createincident', methods=('GET','POST'))
-@login_required
+#@login_required
 def createincident():
     if request.method == 'POST':
         incidentnum = request.form['inum']
@@ -82,13 +82,13 @@ def createincident():
     return render_template('tracker/createincident.html')
 
 @bp.route('/viewincidents')
-@login_required
+#@login_required
 def viewincidents():
     incidents=get_all_incidents()
     return render_template('tracker/viewincidents.html', incidents=incidents)
 
 @bp.route('/search', methods=('POST',))
-@login_required
+#@login_required
 def search():
     db=get_db()
     search = request.form["searchinput"].lower()
@@ -103,7 +103,7 @@ def search():
     return render_template("tracker/components/incidentcard.html", incidents=res)
 
 @bp.route('/details')
-@login_required
+#@login_required
 def details():
     _incnum = request.args.get("_incnum")
 
@@ -139,7 +139,7 @@ def details():
     return render_template("tracker/incidentdetails.html", incident=inc_res, send_list=send_res, recv_list=recv_res)
 
 @bp.route('/edit', methods=('GET', 'POST'))
-@login_required
+#@login_required
 def edit():
     edittype = request.args.get("type")
 
@@ -205,7 +205,7 @@ def edit():
         return redirect(url_for('tracker.viewincidents'))
     
 @bp.route('/deleteshipment/<id>', methods=["DELETE"])
-@login_required
+#@login_required
 def delete_shipment(id):
     db = get_db()
     db.execute('''DELETE FROM SHIPMENT
@@ -214,7 +214,7 @@ def delete_shipment(id):
     return "Shipment Deleted From Database"
 
 @bp.route('/deleteincident/<incnum>', methods=["DELETE"])
-@login_required
+#@login_required
 def delete_incident(incnum):
     db = get_db()
     db.execute('''DELETE FROM INCIDENT
@@ -223,7 +223,7 @@ def delete_incident(incnum):
     return "Incident Deleted From Database"
 
 @bp.route('/complete/<id>', methods=["POST"])
-@login_required
+#@login_required
 def complete_shipment(id):
     from datetime import datetime
     current_date=datetime.now().strftime("%m/%d/%Y")

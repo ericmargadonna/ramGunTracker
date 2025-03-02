@@ -4,8 +4,8 @@ from flask import Flask
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        REGISTRATION_KEY='dev',
+        #SECRET_KEY='dev',
+        #REGISTRATION_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'ramapp.sqlite')
     )
 
@@ -21,7 +21,7 @@ def create_app(test_config=None):
     
     from . import db, auth, tracker
     db.init_app(app)
-    app.register_blueprint(auth.bp)
+    #app.register_blueprint(auth.bp)
     app.register_blueprint(tracker.bp)
     
     return app
